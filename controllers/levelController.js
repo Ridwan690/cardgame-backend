@@ -2,7 +2,9 @@ const { Level, Leaderboard } = require("../models");
 
 const getLevels = async (req, res) => {
   try {
-    const levels = await Level.findAll();
+    const levels = await Level.findAll({
+      order: [["id", "ASC"]],
+    });
     res.json(levels);
   } catch (error) {
     res.status(500).json({ message: "Error fetching levels" });

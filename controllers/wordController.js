@@ -24,13 +24,24 @@ const getAllWords = async (req, res) => {
 
 const addWord = async (req, res) => {
   try {
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
+
     const { kata } = req.body;
 
     let image_url = null;
 
     if (req.file) {
+      console.log("Uploaded file info:", {
+        originalname: req.file?.originalname,
+        mimetype: req.file?.mimetype,
+        size: req.file?.size,
+      });
+
       const fileExt = req.file.originalname.split(".").pop();
       const filename = `${uuidv4()}.${fileExt}`;
+
+      console.log("📤 Mulai upload ke Supabase:", filename);
 
       const { error } = await supabase.storage
         .from("uploads")
@@ -40,6 +51,7 @@ const addWord = async (req, res) => {
         });
 
       if (error) {
+        console.error("❌ Supabase upload error:", error);
         return res
           .status(500)
           .json({ message: "Upload gagal", error: error.message });
@@ -50,6 +62,8 @@ const addWord = async (req, res) => {
 
     const newCard = await Kartu.create({ kata, image_url });
     const newWord = await Kosakata.create({ id_kartu: newCard.id_kartu });
+
+    console.log("✅ Upload sukses ke Supabase");
 
     res.status(201).json({ message: "Kosakata berhasil ditambahkan", newWord });
   } catch (error) {
