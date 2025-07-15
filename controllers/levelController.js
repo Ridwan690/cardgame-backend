@@ -3,7 +3,7 @@ const { Level, Leaderboard } = require("../models");
 const getLevels = async (req, res) => {
   try {
     const levels = await Level.findAll({
-      order: [["id", "ASC"]],
+      order: [["id_level", "ASC"]], 
     });
     res.json(levels);
   } catch (error) {
