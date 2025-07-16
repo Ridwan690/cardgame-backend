@@ -226,10 +226,9 @@ const getSiswaById = async (req, res) => {
 };
 
 const searchSiswa = async (req, res) => {
-  const { query } = req.query; // Ganti keyword dengan query untuk konsistensi
+  const { query } = req.query;
 
   try {
-    // Validasi minimal input
     if (!query || query.trim().length < 2) {
       return res.status(400).json({
         message: "Query pencarian harus minimal 2 karakter",
@@ -241,8 +240,8 @@ const searchSiswa = async (req, res) => {
     const siswaList = await Siswa.findAll({
       where: {
         [Op.or]: [
-          { username: { [Op.like]: `%${trimmedQuery}%` } },
-          { nis: { [Op.like]: `%${trimmedQuery}%` } },
+          { username: { [Op.iLike]: `%${trimmedQuery}%` } }, // Case-insensitive
+          { nis: { [Op.iLike]: `%${trimmedQuery}%` } }, // Case-insensitive
         ],
       },
       order: [["createdAt", "DESC"]],
