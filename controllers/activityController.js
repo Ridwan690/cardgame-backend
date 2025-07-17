@@ -20,20 +20,16 @@ const getRecentActivities = async (req, res) => {
 
 const resetActivities = async (req, res) => {
   try {
-    // Hapus semua data permainan
-    await Permainan.destroy({
-      where: {},
-      truncate: true,
-    });
+    await sequelize.query(`TRUNCATE "Permainans" RESTART IDENTITY CASCADE`);
 
     res.json({
-      message: "Data kagiatan berhasil direset",
+      message: "Data kegiatan berhasil direset",
       success: true,
     });
   } catch (error) {
     console.error("Error resetting activities:", error);
     res.status(500).json({
-      message: "Gagal mereset data kagiatan",
+      message: "Gagal mereset data kegiatan",
       success: false,
     });
   }
