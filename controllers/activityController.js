@@ -20,10 +20,12 @@ const getRecentActivities = async (req, res) => {
 
 const resetActivities = async (req, res) => {
   try {
-    await sequelize.query(`TRUNCATE "Permainans" RESTART IDENTITY CASCADE`);
+    await Permainan.destroy({
+      where: {}, // Hapus semua data
+    });
 
     res.json({
-      message: "Data kegiatan berhasil direset",
+      message: "Data kegiatan berhasil dihapus (ID tetap lanjut)",
       success: true,
     });
   } catch (error) {
