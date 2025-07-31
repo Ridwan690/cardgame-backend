@@ -48,7 +48,8 @@ router.delete("/leaderboard/reset", leaderboardController.resetLeaderboard);
 router.delete("/leaderboard/:id", leaderboardController.deleteLeaderboard);
 
 // Activity Routes
-router.get("/activity", activityController.getRecentActivities);
+router.get("/activity", activityController.getActivitiesBySiswa); 
+router.get("/recent-activities", activityController.getRecentActivities); 
 router.delete("/activity/reset", activityController.resetActivities);
 
 // Game Session Routes
